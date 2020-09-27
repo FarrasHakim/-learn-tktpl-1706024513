@@ -18,11 +18,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View v) {
-        EditText inputField = findViewById(R.id.name_input);
+        EditText nameField = findViewById(R.id.name_input);
         TextView greetText = findViewById(R.id.greet_text);
 
-        if (!inputField.getText().toString().equals("")) {
-            greetText.setText(StaticFunctions.greetUser(inputField.getText().toString()));
+        if (!nameField.getText().toString().equals("")) {
+            greetText.setText(StaticFunctions.greetUser(nameField.getText().toString()));
         } else {
             Toast toast = Toast.makeText(v.getContext(), "Masukkan Namamu", Toast.LENGTH_SHORT);
             toast.show();
