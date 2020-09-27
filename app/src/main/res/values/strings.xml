@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">HelloWorld</string>
     <string name="first_app">This is My First Mobile App</string>
+    <string name="greet_text">What is your name?</string>
     <string name="button_text">Click Me</string>
+    <string name="greet_button_text">Submit Name</string>
     <string name="img_desc">This is just an avatar picture.</string>
+    <string name="name_input">Masukkan namamu disini</string>
 </resources>
