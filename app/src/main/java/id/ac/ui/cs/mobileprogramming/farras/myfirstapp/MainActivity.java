@@ -12,11 +12,19 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import api.ApiClient;
+import api.ApiInterface;
+import api.WifiData;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     WifiManager mWifiManager;
+    private ApiInterface service;
 
 
     @Override
@@ -24,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mWifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-
+        service = ApiClient.getClient().create(ApiInterface.class);
         if (mWifiManager.isWifiEnabled() == false)
         {
             // If wifi disabled then enable it
@@ -33,14 +41,6 @@ public class MainActivity extends AppCompatActivity {
             mWifiManager.setWifiEnabled(true);
         }
 
-        IntentFilter intentFilter = new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-        Intent wifiIntent = registerReceiver(mWifiScanReceiver, intentFilter);
-//        sendBroadcast(intent);
-        Log.wtf("MainActivityOnCreate", "Habis Register Receiver");
-        Log.wtf("MainActivityOnCreate", "Wifi Intent: " + wifiIntent);
-        boolean successScan = mWifiManager.startScan();
-
-        Log.wtf("MainActivityOnCreate", "Scan Status: " + successScan);
     }
 
     private final BroadcastReceiver mWifiScanReceiver = new BroadcastReceiver() {
@@ -50,7 +50,27 @@ public class MainActivity extends AppCompatActivity {
             if (intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)) {
                 List<ScanResult> mScanResults = mWifiManager.getScanResults();
                 for (ScanResult result:mScanResults) {
-                    Log.wtf("BRMainActivity", String.valueOf(result.SSID));
+                    Call<ResponseBody> call = service.addWifi(
+                            new WifiData(
+                                    result.SSID,
+                                    result.BSSID,
+                                    result.capabilities,
+                                    result.frequency,
+                                    result.channelWidth));
+                    call.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                Log.wtf("BRMAINACTIVITY", "Berhasil POST");
+                                Toast.makeText(getApplication(), "Berhasil POST", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Toast.makeText(getApplication(), "Failed because: " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         }
@@ -70,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick(View v) {
         boolean successScan = mWifiManager.startScan();
-        Intent receiverIntent = registerReceiver(mWifiScanReceiver, new IntentFilter(WifiManager.ACTION_REQUEST_SCAN_ALWAYS_AVAILABLE));
+        Intent receiverIntent = registerReceiver(mWifiScanReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         String textMessage = "Success Scan: " + successScan + "\n"
                 + "Wifi Info: " + mWifiManager.getConnectionInfo() + "\n"
                 + "Wifi State: " + mWifiManager.getWifiState() + "\n"
