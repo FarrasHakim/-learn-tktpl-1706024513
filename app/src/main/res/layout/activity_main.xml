@@ -6,52 +6,25 @@
                                                    android:layout_height="match_parent"
                                                    tools:context=".MainActivity">
 
-    <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="140dp"
-            android:layout_marginTop="185dp"
-            android:layout_marginEnd="143dp"
-            android:layout_marginBottom="418dp"
-            android:contentDescription="@string/img_desc"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@mipmap/profile_test2"
-            tools:srcCompat="@tools:sample/avatars"/>
-    <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="@string/name_input"
-            android:ems="10"
-            android:id="@+id/name_input"
-            android:autofillHints="" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="99dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="99dp" app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="465dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="221dp"/>
     <Button
             android:id="@+id/greet_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClick"
-            android:text="@string/greet_button_text"
+            android:text="Wifi Click"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="146dp"
             android:layout_marginEnd="146dp" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="533dp"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="150dp"/>
     <TextView
-            android:text="@string/greet_text"
             android:textSize="26dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="179dp" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="174dp"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="367dp"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="346dp"/>
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="346dp" android:id="@+id/wifiState"
+            android:textAlignment="center"/>
     <TextView
             android:textSize="26dp"
             android:layout_width="wrap_content"
